@@ -3,6 +3,15 @@
 *.dll
 *.so
 *.dylib
+*.iml
+debug
+.vscode/
+.idea/
+pkg/
+github.com/
+github.org/
+golang.org/
+sourcegraph.com/
 
 # Test binary, build with `go test -c`
 *.test
