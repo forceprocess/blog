@@ -1,3 +1,7 @@
+.row {
+    /*opacity: 0.8;*/
+}
+
 .header {
     border-bottom: 1px solid #ddd;
 }
@@ -5,6 +9,10 @@
 #container {
     margin-top: 70px;
     margin-bottom: 65px;
+}
+
+.author-contact i{
+    color: #0c5460;
 }
 
 .article-content {
@@ -57,6 +65,20 @@ img {
     position: fixed;
     bottom: 80px;
     right: 20px;
+}
+
+.to-top > i {
+    color: #d0d0d0;
+    font-size: 2.3rem;
+}
+
+.to-top > i:hover {
+    color: #FF0000;
+    cursor: pointer;
+}
+
+.card-body {
+    padding: 0 15px;
 }
 
 .canvas {

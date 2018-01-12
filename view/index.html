@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/ionicons.min.css">
     <link rel="stylesheet" href="/static/css/main.css">
     <title>home</title>
 </head>
@@ -47,10 +48,10 @@
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form> -->
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </div>
     </nav>
 </div>
@@ -93,21 +94,42 @@
 
         </div>
 
-        <!-- 个人基本资料信息 -->
+        <!-- 右侧 -->
         <div class="col-md-4 col-lg-3 hidden-sm-down">
-            <div class="input-group">
-                <input type="search" class="form-control" placeholder="请输入关键字">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">Button</button>
+
+            <!-- 个人基本资料信息 -->
+            <div class="card text-center">
+                <div class="mt-3 mb-2">
+                    <img class="rounded-circle" src="/static/images/headimg.gif">
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5>author</h5>
+                            <p>
+                                XXX
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row author-contact">
+                        <div class="col-4 offset-2"><i class="ion ion-android-person"></i>客服</div>
+                        <div class="col-4"><i class="ion ion-chatbubble-working"></i>微博</div>
+                    </div>
+                </div>
+                <hr class="m-0 mt-2">
+                <div class="card-body mt-2 mb-2">
+                    <div class="row">
+                        <div class="col-4">文章5</div>
+                        <div class="col-4">评论1</div>
+                        <div class="col-4">微语2</div>
+                    </div>
                 </div>
             </div>
 
+            <!-- 文章列表 -->
             <div class="border mt-3">
-                个人资料
-            </div>
-
-            <div class="border mt-3">
-
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
@@ -120,17 +142,35 @@
                         <a class="nav-link" href="#random" role="tab" data-toggle="tab">随机</a>
                     </li>
                 </ul>
-
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="newest">最新</div>
-                    <div role="tabpanel" class="tab-pane" id="hot">热门</div>
-                    <div role="tabpanel" class="tab-pane" id="random">随机</div>
+                    <div class="tab-pane active" id="newest">
+                        <div class="row">
+                            <div class="col-12">
+                                文章1
+                            </div>
+                            <div class="col-12">
+                                文章2
+                            </div>
+                            <div class="col-12">
+                                文章3
+                            </div>
+                            <div class="col-12">
+                                文章4
+                            </div>
+                            <div class="col-12">
+                                文章5
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="hot">热门</div>
+                    <div class="tab-pane" id="random">随机</div>
                 </div>
             </div>
 
+            <!-- 友情链接 -->
             <div class="border mt-3">
-                连接
+                链接
             </div>
         </div>
     </div>
@@ -141,7 +181,7 @@
 
     <!-- 返回顶部 -->
     <div class="to-top" v-show="top" v-on:click="toTop">
-        top
+        <i class="icon ion-chevron-up"></i>
     </div>
 
 </div>
