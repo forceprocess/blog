@@ -21,17 +21,29 @@ var menu = new Vue({
 var vm = new Vue({
 	el: '#article',
 	data: {
-		top: false,
 		page: 1,
 		row: 5,
 		breadcrumb: [
-			{'title': '首页','link':'#'},
-			{'title': 'Java','link':'#'},
-			{'title': 'Java多线程','link':'#'}
+			{'title': '首页', 'link': '#'},
+			{'title': 'Java', 'link': '#'},
+			{'title': 'Java多线程', 'link': '#'}
 		],
 		articles: [
 			1, 2, 3, 4, 5
 		]
+	},
+	methods: {
+		toPage: function (page) {
+			this.page += page;
+		}
+
+	}
+});
+
+var topContainer = new Vue({
+	el: '#top-container',
+	data: {
+		top: false
 	},
 	mounted: function () {
 		this.$nextTick(function () {
@@ -44,11 +56,7 @@ var vm = new Vue({
 		},
 		toTop: function () {
 			window.scrollTo(0, 0);
-		},
-		toPage: function (page) {
-			this.page += page;
 		}
-
 	}
 });
 
