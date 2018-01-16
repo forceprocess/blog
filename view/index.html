@@ -37,11 +37,6 @@
             margin-right: 8px;
         }
 
-        .el-card-animate {
-            font-size: 33px;
-            transition: opacity 2s ease;
-        }
-
         .el-card:hover {
             box-shadow: 0 0 15px #888888;
         }
@@ -82,10 +77,12 @@
         .card-footer {
             border-top: 1px solid #e6ebf5;
             padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
 
-        .article-time {
-            font-size: 13px;
+        .footer-font {
+            font-size: 15px;
             color: #999;
         }
 
@@ -116,9 +113,7 @@
                 :md="index%2==0?({span:9,offset:3}):({span:9,offset:0})"
                 :sm="index%2==0?({span:10,offset:2}):({span:10,offset:0})" :xs="{span:22,offset:1}"
                 v-for="(item,index) in 12">
-            <!--<transition appear="true" enter-active-class="animated fadeInRight"
-                        leave-active-class="animated fadeOutRight" >-->
-            <el-card :body-style="{ padding: '0px' }" class="el-card-animate wow fadeInRight">
+            <el-card :body-style="{ padding: '0px' }" class="wow fadeInRight">
                 <img src="/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg" class="card-image">
                 <div class="card-content">
                     <p class="article-title">123134</p>
@@ -129,11 +124,14 @@
                     </span>
                 </div>
                 <div class="card-footer">
-                    <time class="article-time">2017-12-20 15:30:50</time>
-                    <el-button type="text" class="button">操作按钮</el-button>
+                    <i class="footer-font el-icon-time"></i>
+                    <time class="footer-font">2017-12-20 15:30:50</time>
+                    <i class="footer-font el-icon-tickets"></i>
+                    <span class="footer-font">作者</span>
+                    <i class="footer-font el-icon-view"></i>
+                    <el-button type="text">查看</el-button>
                 </div>
             </el-card>
-            <!--</transition>-->
         </el-col>
     </el-row>
 </div>
@@ -144,26 +142,26 @@
 <script src="/static/js/qs.js"></script>
 <script src="/static/js/wow.min.js"></script>
 <script>
-	var vm = new Vue({
-		el: '#app',
-		data: {
-			carousels: [
-				{'title': '', 'link': '/static/images/1.jpg'},
-				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
-			]
-		},
-		mounted: function () {
-			this.$nextTick(function () {
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            carousels: [
+                {'title': '', 'link': '/static/images/1.jpg'},
+                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
+            ]
+        },
+        mounted: function () {
+            this.$nextTick(function () {
 //				this
-				if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
-					new WOW().init();
-				}
-			});
-		},
-		methods: {}
-	});
+                if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+                    new WOW().init();
+                }
+            });
+        },
+        methods: {}
+    });
 
 </script>
 </body>
