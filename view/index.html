@@ -6,12 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/css/element-ui.css">
     <link rel="stylesheet" href="/static/css/animate.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     <title>home</title>
 
     <style>
         body {
             margin: 0;
             padding: 0;
+        }
+
+        .operation-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            font-size: 2rem;
+            color: #96B97D;
+        }
+
+        .to-top {
+            border: 1px solid #96B97D;
+            border-radius: 20px;
+        }
+
+        .operation-container i:hover:before {
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .main {
@@ -24,17 +44,9 @@
             margin-bottom: 15px;
         }
 
-        /*.el-col:nth-child(odd) {
-            margin-left: -10px;
-        }
-
-        .el-col:nth-child(even) {
-            margin-left: 10px;
-        }*/
-
         .el-card {
-            margin-left: 8px;
-            margin-right: 8px;
+            margin-left: 1.5%;
+            margin-right: 1.5%;
         }
 
         .el-card:hover {
@@ -94,7 +106,7 @@
 <div id="app">
 
     <!-- -->
-    <el-row>
+    <el-row class="head">
         <el-col :span="24">
             <template>
                 <el-carousel indicator-position="outside" :arrow="'never'" :indicator-position="'none'"
@@ -114,7 +126,7 @@
                 :sm="index%2==0?({span:10,offset:2}):({span:10,offset:0})" :xs="{span:22,offset:1}"
                 v-for="(item,index) in 12">
             <el-card :body-style="{ padding: '0px' }" class="wow fadeInRight">
-                <img src="/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg" class="card-image">
+                <img src="/static/images/1.jpg" class="card-image">
                 <div class="card-content">
                     <p class="article-title">123134</p>
                     <span class="article-content">
@@ -124,14 +136,37 @@
                     </span>
                 </div>
                 <div class="card-footer">
-                    <i class="footer-font el-icon-time"></i>
+                    <i class="fa fa-clock-o footer-font"></i>
                     <time class="footer-font">2017-12-20 15:30:50</time>
-                    <i class="footer-font el-icon-tickets"></i>
+                    <i class="fa fa-user footer-font" aria-hidden="true"></i>
                     <span class="footer-font">作者</span>
-                    <i class="footer-font el-icon-view"></i>
+                    <i class="fa fa-eye footer-font"></i>
                     <el-button type="text">查看</el-button>
                 </div>
             </el-card>
+        </el-col>
+    </el-row>
+
+    <el-row class="operation-container">
+
+        <el-col :span="24">
+            <el-tooltip class="item" effect="dark" content="返回顶部" placement="left">
+                <i class="el-icon-arrow-up to-top" v-show="top"></i>
+            </el-tooltip>
+        </el-col>
+
+        <el-col :span="24">
+            <el-tooltip class="item" effect="dark" content="增加文章" placement="left">
+                <i class="el-icon-edit"></i>
+            </el-tooltip>
+        </el-col>
+
+    </el-row>
+
+    <!-- -->
+    <el-row class="footer">
+        <el-col :span="24">
+
         </el-col>
     </el-row>
 </div>
@@ -142,26 +177,36 @@
 <script src="/static/js/qs.js"></script>
 <script src="/static/js/wow.min.js"></script>
 <script>
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            carousels: [
-                {'title': '', 'link': '/static/images/1.jpg'},
-                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
-            ]
-        },
-        mounted: function () {
-            this.$nextTick(function () {
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			carousels: [
+				{'title': '', 'link': '/static/images/1.jpg'},
+				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
+			],
+			top: false
+		},
+		mounted: function () {
+			this.$nextTick(function () {
 //				this
-                if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
-                    new WOW().init();
-                }
-            });
-        },
-        methods: {}
-    });
+				if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+					new WOW().init();
+				}
+
+				document.onscroll = this.doScrollTop;
+			});
+		},
+		methods: {
+			doScrollTop: function (e) {
+				this.top = window.pageYOffset > 20;
+			},
+			toTop: function () {
+				window.scrollTo(0, 0);
+			}
+		}
+	});
 
 </script>
 </body>
