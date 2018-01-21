@@ -102,6 +102,18 @@
             color: #999;
         }
 
+        @media screen and (max-width: 500px) {
+            .el-dialog {
+                width: 80% !important;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .el-dialog {
+                width: 60%;
+            }
+        }
+
     </style>
 </head>
 
@@ -151,21 +163,15 @@
         </el-col>
     </el-row>
 
-    <el-row class="operation-container">
-
-        <el-col :span="24">
-            <el-tooltip class="item" effect="dark" content="返回顶部" placement="left">
-                <i class="el-icon-arrow-up to-top" v-show="top" @click="toTop"></i>
-            </el-tooltip>
-        </el-col>
-
-        <el-col :span="24">
-            <el-tooltip class="item" effect="dark" content="增加文章" placement="left">
-                <i class="el-icon-edit" @click="articleDialogVisible=true"></i>
-            </el-tooltip>
-        </el-col>
-
-    </el-row>
+    <div class="operation-container">
+        <el-tooltip class="item" effect="dark" content="返回顶部" placement="left">
+            <i class="el-icon-arrow-up to-top" v-show="top" @click="toTop"></i>
+        </el-tooltip>
+        <br>
+        <el-tooltip class="item" effect="dark" content="增加文章" placement="left">
+            <i class="el-icon-edit" @click="articleDialogVisible=true"></i>
+        </el-tooltip>
+    </div>
 
     <!-- -->
     <el-row class="footer">
@@ -177,9 +183,16 @@
 
     <!-- dialog article -->
     <el-dialog title="新增" :visible.sync="articleDialogVisible" :before-close="cancelArticle">
-        <el-form :model="form2" ref="form2">
-            <el-form-item label="活动名称" prop="name" :label-width="formLabelWidth">
-                <el-input type="text" v-model="form2.name" auto-complete="off"></el-input>
+        <el-form :model="article" ref="article" :rules="rules" :status-icon="true" :label-position="'right'"
+                 label-width="52px">
+            <el-form-item label="标题" prop="title">
+                <el-input type="text" v-model="article.title" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="作者" prop="author">
+                <el-input type="text" v-model="article.author" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="内容" prop="content">
+                <el-input type="textarea" v-model="article.content" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -207,10 +220,26 @@
             ],
             top: false,
             formLabelWidth: '120px',
-            form2: {
-                name: ''
+            articleDialogVisible: false,
+            article: {
+                title: '',
+                content: '',
+                author: ''
             },
-            articleDialogVisible: false
+            rules: {
+                title: [
+                    {required: true, message: '请输入标题', trigger: 'blur,change'},
+                    {max: 15, message: '最多 15 个字符', trigger: 'blur'}
+                ],
+                author: [
+                    {required: true, message: '请输入作者', trigger: 'blur,change'},
+                    {max: 10, message: '最多 10 个字符', trigger: 'blur'}
+                ],
+                content: [
+                    {required: true, message: '请输入内容', trigger: 'blur,change'},
+                    {min: 50, message: '最少 50 个字符', trigger: 'blur'}
+                ]
+            }
         },
         mounted: function () {
             this.$nextTick(function () {
@@ -230,10 +259,20 @@
                 window.scrollTo(0, 0);
             },
             addArticle: function () {
-                this.$refs['form2'].resetFields();
+                var _this = this;
+                this.$refs['article'].validate(function (valid) {
+                    if (valid) {
+                        _this.$refs['article'].resetFields();
+                        _this.$message({
+                            message: '添加成功',
+                            showClose: false,
+                            type: 'success'
+                        });
+                    }
+                });
             },
             cancelArticle: function () {
-                this.$refs['form2'].resetFields();
+                this.$refs['article'].resetFields();
                 this.articleDialogVisible = false;
             }
         }
