@@ -24,6 +24,10 @@
             color: #96B97D;
         }
 
+        .operation-container .el-col {
+            margin-bottom: 5px;
+        }
+
         .to-top {
             border: 1px solid #96B97D;
             border-radius: 20px;
@@ -40,8 +44,8 @@
             z-index: 100;
         }
 
-        .el-col {
-            margin-bottom: 15px;
+        .main .el-col {
+            margin-bottom: 35px;
         }
 
         .el-card {
@@ -98,6 +102,18 @@
             color: #999;
         }
 
+        @media screen and (max-width: 500px) {
+            .el-dialog {
+                width: 80% !important;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .el-dialog {
+                width: 60%;
+            }
+        }
+
     </style>
 </head>
 
@@ -147,21 +163,15 @@
         </el-col>
     </el-row>
 
-    <el-row class="operation-container">
-
-        <el-col :span="24">
-            <el-tooltip class="item" effect="dark" content="返回顶部" placement="left">
-                <i class="el-icon-arrow-up to-top" v-show="top"></i>
-            </el-tooltip>
-        </el-col>
-
-        <el-col :span="24">
-            <el-tooltip class="item" effect="dark" content="增加文章" placement="left">
-                <i class="el-icon-edit"></i>
-            </el-tooltip>
-        </el-col>
-
-    </el-row>
+    <div class="operation-container">
+        <el-tooltip class="item" effect="dark" content="返回顶部" placement="left">
+            <i class="el-icon-arrow-up to-top" v-show="top" @click="toTop"></i>
+        </el-tooltip>
+        <br>
+        <el-tooltip class="item" effect="dark" content="增加文章" placement="left">
+            <i class="el-icon-edit" @click="articleDialogVisible=true"></i>
+        </el-tooltip>
+    </div>
 
     <!-- -->
     <el-row class="footer">
@@ -169,6 +179,28 @@
 
         </el-col>
     </el-row>
+
+
+    <!-- dialog article -->
+    <el-dialog title="新增" :visible.sync="articleDialogVisible" :before-close="cancelArticle">
+        <el-form :model="article" ref="article" :rules="rules" :status-icon="true" :label-position="'right'"
+                 label-width="52px">
+            <el-form-item label="标题" prop="title">
+                <el-input type="text" v-model="article.title" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="作者" prop="author">
+                <el-input type="text" v-model="article.author" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="内容" prop="content">
+                <el-input type="textarea" v-model="article.content" auto-complete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="cancelArticle">取 消</el-button>
+            <el-button type="primary" @click="addArticle">确 定</el-button>
+        </div>
+    </el-dialog>
+
 </div>
 
 <script src="/static/js/vue.min.js"></script>
@@ -177,36 +209,74 @@
 <script src="/static/js/qs.js"></script>
 <script src="/static/js/wow.min.js"></script>
 <script>
-	var vm = new Vue({
-		el: '#app',
-		data: {
-			carousels: [
-				{'title': '', 'link': '/static/images/1.jpg'},
-				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
-			],
-			top: false
-		},
-		mounted: function () {
-			this.$nextTick(function () {
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            carousels: [
+                {'title': '', 'link': '/static/images/1.jpg'},
+                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
+            ],
+            top: false,
+            formLabelWidth: '120px',
+            articleDialogVisible: false,
+            article: {
+                title: '',
+                content: '',
+                author: ''
+            },
+            rules: {
+                title: [
+                    {required: true, message: '请输入标题', trigger: 'blur,change'},
+                    {max: 15, message: '最多 15 个字符', trigger: 'blur'}
+                ],
+                author: [
+                    {required: true, message: '请输入作者', trigger: 'blur,change'},
+                    {max: 10, message: '最多 10 个字符', trigger: 'blur'}
+                ],
+                content: [
+                    {required: true, message: '请输入内容', trigger: 'blur,change'},
+                    {min: 50, message: '最少 50 个字符', trigger: 'blur'}
+                ]
+            }
+        },
+        mounted: function () {
+            this.$nextTick(function () {
 //				this
-				if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
-					new WOW().init();
-				}
+                if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+                    new WOW().init();
+                }
 
-				document.onscroll = this.doScrollTop;
-			});
-		},
-		methods: {
-			doScrollTop: function (e) {
-				this.top = window.pageYOffset > 20;
-			},
-			toTop: function () {
-				window.scrollTo(0, 0);
-			}
-		}
-	});
+                document.onscroll = this.doScrollTop;
+            });
+        },
+        methods: {
+            doScrollTop: function (e) {
+                this.top = window.pageYOffset > 20;
+            },
+            toTop: function () {
+                window.scrollTo(0, 0);
+            },
+            addArticle: function () {
+                var _this = this;
+                this.$refs['article'].validate(function (valid) {
+                    if (valid) {
+                        _this.$refs['article'].resetFields();
+                        _this.$message({
+                            message: '添加成功',
+                            showClose: false,
+                            type: 'success'
+                        });
+                    }
+                });
+            },
+            cancelArticle: function () {
+                this.$refs['article'].resetFields();
+                this.articleDialogVisible = false;
+            }
+        }
+    });
 
 </script>
 </body>
