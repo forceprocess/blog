@@ -39,8 +39,8 @@
         }
 
         .main {
-            position: absolute;
-            top: 250px;
+            position: relative;
+            top: -60px;
             z-index: 100;
         }
 
@@ -137,27 +137,25 @@
 
     <!-- -->
     <el-row class="main">
-        <el-col lg:="index%2==0?({span:8,offset:4}):({span:8,offset:0})"
+        <el-col :lg="index%2==0?({span:8,offset:4}):({span:8,offset:0})"
                 :md="index%2==0?({span:9,offset:3}):({span:9,offset:0})"
                 :sm="index%2==0?({span:10,offset:2}):({span:10,offset:0})" :xs="{span:22,offset:1}"
-                v-for="(item,index) in 12">
+                v-for="(item,index) in articleList">
             <el-card :body-style="{ padding: '0px' }" class="wow fadeInRight">
                 <img src="/static/images/1.jpg" class="card-image">
                 <div class="card-content">
-                    <p class="article-title">123134</p>
+                    <p class="article-title">{{item.title}}</p>
                     <span class="article-content">
-                        内容1222222222222222222222222222222222222222223333333333333333333333333333333333333333333333
-                        内容1222222222222222222222222222222222222222223333333333333333333333333333333333333333333333
-                        内容122222222222222222222222222222222222222223333333333333333333333333333333333333333333333
+                        {{item.content}}
                     </span>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-clock-o footer-font"></i>
-                    <time class="footer-font">2017-12-20 15:30:50</time>
+                    <time class="footer-font">{{item.createTime}}</time>
                     <i class="fa fa-user footer-font" aria-hidden="true"></i>
-                    <span class="footer-font">作者</span>
-                    <i class="fa fa-eye footer-font"></i>
-                    <el-button type="text">查看</el-button>
+                    <span class="footer-font">{{item.author}}</span>
+                   <!-- <i class="fa fa-eye footer-font"></i>
+                    <el-button type="text">查看</el-button>-->
                 </div>
             </el-card>
         </el-col>
@@ -209,6 +207,10 @@
 <script src="/static/js/qs.js"></script>
 <script src="/static/js/wow.min.js"></script>
 <script>
+
+	Vue.prototype.$qs = Qs;
+	Vue.prototype.$axios = axios;
+
     var vm = new Vue({
         el: '#app',
         data: {
@@ -239,7 +241,16 @@
                     {required: true, message: '请输入内容', trigger: 'blur,change'},
                     {min: 50, message: '最少 50 个字符', trigger: 'blur'}
                 ]
-            }
+            },
+            articleList:[
+	            {"title":"标题", "author": "张三1", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+//	            {"title":"标题", "author": "张三2", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+//	            {"title":"标题", "author": "张三3", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+//	            {"title":"标题", "author": "张三4", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+//	            {"title":"标题", "author": "张三5", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+//	            {"title":"标题", "author": "张三6", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+	            {"title":"标题", "author": "张三7", "createTime":"2017-05-12 12:23:50", "content":"内容"}
+            ]
         },
         mounted: function () {
             this.$nextTick(function () {
@@ -262,6 +273,14 @@
                 var _this = this;
                 this.$refs['article'].validate(function (valid) {
                     if (valid) {
+                    	//提交数据
+	                    _this.$axios.post("/doAddArticle", _this.$qs.stringify(_this.article)).then(function (res) {
+		                    var result = res.data;
+		                    console.log(result);
+	                    }).catch(function (err) {
+		                    _this.$message.error("添加失败");
+	                    });
+
                         _this.$refs['article'].resetFields();
                         _this.$message({
                             message: '添加成功',
