@@ -15,6 +15,23 @@
             padding: 0;
         }
 
+        .api-container {
+            position: absolute;
+            z-index: 100;
+            min-width: 300px;
+            max-width: 300px;
+            left:10%;
+            right: 10%;
+            top: 15px;
+            margin:auto;
+            text-align: center;
+        }
+
+        .qq-test {
+            color: #409EFF;
+            text-align: left;
+        }
+
         .operation-container {
             position: fixed;
             bottom: 20px;
@@ -102,6 +119,14 @@
             color: #999;
         }
 
+        @media screen and (max-width: 390px) {
+            .api-container {
+                min-width: auto;
+                left: 15px;
+                right: 15px;
+            }
+        }
+
         @media screen and (max-width: 500px) {
             .el-dialog {
                 width: 80% !important;
@@ -112,6 +137,11 @@
             .el-dialog {
                 width: 60%;
             }
+
+           /* .api-container {
+                left: 15px;
+                right: 15px;
+            }*/
         }
 
     </style>
@@ -132,6 +162,17 @@
                     </el-carousel-item>
                 </el-carousel>
             </template>
+        </el-col>
+    </el-row>
+
+    <el-row class="api-container">
+        <el-col :span="24">
+            <el-input placeholder="请输入QQ号码" v-model="qq">
+                <el-button slot="append" @click="qq">测试</el-button>
+            </el-input>
+        </el-col>
+        <el-col :span="24" class="qq-test">
+            21342
         </el-col>
     </el-row>
 
@@ -250,7 +291,8 @@
 //	            {"title":"标题", "author": "张三5", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三6", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 	            {"title":"标题", "author": "张三7", "createTime":"2017-05-12 12:23:50", "content":"内容"}
-            ]
+            ],
+            qq:''
         },
         mounted: function () {
             this.$nextTick(function () {
@@ -268,6 +310,10 @@
             },
             toTop: function () {
                 window.scrollTo(0, 0);
+            },
+            qq: function () {
+                //http://japi.juhe.cn/qqevaluate/qq=88888888&key=340f0e64f57ee81109ae7f2581464e04
+                console.log(this.qq)
             },
             addArticle: function () {
                 var _this = this;
