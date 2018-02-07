@@ -20,15 +20,15 @@
             z-index: 100;
             min-width: 300px;
             max-width: 300px;
-            left:10%;
+            left: 10%;
             right: 10%;
             top: 15px;
-            margin:auto;
+            margin: auto;
             text-align: center;
         }
 
         .qq-test {
-            color: #409EFF;
+            color: #FFFFFF;
             text-align: left;
         }
 
@@ -138,10 +138,10 @@
                 width: 60%;
             }
 
-           /* .api-container {
-                left: 15px;
-                right: 15px;
-            }*/
+            /* .api-container {
+                 left: 15px;
+                 right: 15px;
+             }*/
         }
 
     </style>
@@ -167,12 +167,23 @@
 
     <el-row class="api-container">
         <el-col :span="24">
-            <el-input placeholder="请输入QQ号码" v-model="qq">
-                <el-button slot="append" @click="qq">测试</el-button>
-            </el-input>
+            <el-form :model="qqNoTest" ref="qqNoTest" :rules="rules" :status-icon="true">
+                <el-form-item label="标题" prop="qqNo">
+                    <el-input placeholder="请输入QQ号码" v-model.number="qqNoTest.qqNo">
+                        <el-button slot="append" @click="doQQ">测试</el-button>
+                    </el-input>
+                </el-form-item>
+            </el-form>
         </el-col>
-        <el-col :span="24" class="qq-test">
-            21342
+        <el-col :span="24" class="qq-test" v-show="qqNoTest.conclusion.length>0">
+            <div>
+                <span style="font-weight: bold">结果：</span>
+                {{qqNoTest.conclusion}}
+            </div>
+            <div>
+                <span style="font-weight: bold">分析：</span>
+                {{qqNoTest.analysis}}
+            </div>
         </el-col>
     </el-row>
 
@@ -195,8 +206,8 @@
                     <time class="footer-font">{{item.createTime}}</time>
                     <i class="fa fa-user footer-font" aria-hidden="true"></i>
                     <span class="footer-font">{{item.author}}</span>
-                   <!-- <i class="fa fa-eye footer-font"></i>
-                    <el-button type="text">查看</el-button>-->
+                    <!-- <i class="fa fa-eye footer-font"></i>
+                     <el-button type="text">查看</el-button>-->
                 </div>
             </el-card>
         </el-col>
@@ -252,96 +263,117 @@
 	Vue.prototype.$qs = Qs;
 	Vue.prototype.$axios = axios;
 
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            carousels: [
-                {'title': '', 'link': '/static/images/1.jpg'},
-                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
-                {'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
-            ],
-            top: false,
-            formLabelWidth: '120px',
-            articleDialogVisible: false,
-            article: {
-                title: '',
-                content: '',
-                author: ''
-            },
-            rules: {
-                title: [
-                    {required: true, message: '请输入标题', trigger: 'blur,change'},
-                    {max: 15, message: '最多 15 个字符', trigger: 'blur'}
-                ],
-                author: [
-                    {required: true, message: '请输入作者', trigger: 'blur,change'},
-                    {max: 10, message: '最多 10 个字符', trigger: 'blur'}
-                ],
-                content: [
-                    {required: true, message: '请输入内容', trigger: 'blur,change'},
-                    {min: 50, message: '最少 50 个字符', trigger: 'blur'}
-                ]
-            },
-            articleList:[
-	            {"title":"标题", "author": "张三1", "createTime":"2017-05-12 12:23:50", "content":"内容"},
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			carousels: [
+				{'title': '', 'link': '/static/images/1.jpg'},
+				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'},
+				{'title': '', 'link': '/static/images/v2-ff1987d39e949e19dcb8189a7169114a_hd.jpg'}
+			],
+			top: false,
+			formLabelWidth: '120px',
+			articleDialogVisible: false,
+			article: {
+				title: '',
+				content: '',
+				author: ''
+			},
+			rules: {
+				title: [
+					{required: true, message: '请输入标题', trigger: 'blur,change'},
+					{max: 15, message: '最多 15 个字符', trigger: 'blur'}
+				],
+				author: [
+					{required: true, message: '请输入作者', trigger: 'blur,change'},
+					{max: 10, message: '最多 10 个字符', trigger: 'blur'}
+				],
+				content: [
+					{required: true, message: '请输入内容', trigger: 'blur,change'},
+					{min: 50, message: '最少 50 个字符', trigger: 'blur'}
+				],
+				qqNo: [
+					{required: true, message: 'qq号不能为空'},
+					{type: 'number', message: 'qq号必须为数字值'}
+				]
+			},
+			articleList: [
+				{"title": "标题", "author": "张三1", "createTime": "2017-05-12 12:23:50", "content": "内容"},
 //	            {"title":"标题", "author": "张三2", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三3", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三4", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三5", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三6", "createTime":"2017-05-12 12:23:50", "content":"内容"},
-	            {"title":"标题", "author": "张三7", "createTime":"2017-05-12 12:23:50", "content":"内容"}
-            ],
-            qq:''
-        },
-        mounted: function () {
-            this.$nextTick(function () {
+				{"title": "标题", "author": "张三7", "createTime": "2017-05-12 12:23:50", "content": "内容"}
+			],
+			qqNoTest: {
+				qqNo: 136771988,
+				conclusion: '',
+				analysis: ''
+			}
+		},
+		mounted: function () {
+			this.$nextTick(function () {
 //				this
-                if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
-                    new WOW().init();
-                }
+				if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+					new WOW().init();
+				}
 
-                document.onscroll = this.doScrollTop;
-            });
-        },
-        methods: {
-            doScrollTop: function (e) {
-                this.top = window.pageYOffset > 20;
-            },
-            toTop: function () {
-                window.scrollTo(0, 0);
-            },
-            qq: function () {
-                //http://japi.juhe.cn/qqevaluate/qq=88888888&key=340f0e64f57ee81109ae7f2581464e04
-                console.log(this.qq)
-            },
-            addArticle: function () {
-                var _this = this;
-                this.$refs['article'].validate(function (valid) {
-                    if (valid) {
-                    	//提交数据
-	                    _this.$axios.post("/doAddArticle", _this.$qs.stringify(_this.article)).then(function (res) {
-		                    var result = res.data;
-		                    console.log(result);
-	                    }).catch(function (err) {
-		                    _this.$message.error("添加失败");
-	                    });
+				document.onscroll = this.doScrollTop;
+			});
+		},
+		methods: {
+			doScrollTop: function (e) {
+				this.top = window.pageYOffset > 20;
+			},
+			toTop: function () {
+				window.scrollTo(0, 0);
+			},
+			doQQ: function () {
+				var _this = this;
+				this.$refs['qqNoTest'].validate(function (valid) {
+					if (valid) {
+						_this.$axios.post("/doQQNoTest", _this.$qs.stringify({"qqNo": _this.qqNoTest.qqNo})).then(function (res) {
+							var result = res.data;
+							console.log(result);
+							if (result.error_code == 0 && result.reason == "success") {
+								_this.qqNoTest.conclusion = result.result.data.conclusion;
+								_this.qqNoTest.analysis = result.result.data.analysis;
+							}
+						}).catch(function (err) {
+							_this.$message.error("失败");
+						});
+					}
+				});
+			},
+			addArticle: function () {
+				var _this = this;
+				this.$refs['article'].validate(function (valid) {
+					if (valid) {
+						//提交数据
+						_this.$axios.post("/doAddArticle", _this.$qs.stringify(_this.article)).then(function (res) {
+							var result = res.data;
+							console.log(result);
+						}).catch(function (err) {
+							_this.$message.error("添加失败");
+						});
 
-                        _this.$refs['article'].resetFields();
-                        _this.$message({
-                            message: '添加成功',
-                            showClose: false,
-                            type: 'success'
-                        });
-                    }
-                });
-            },
-            cancelArticle: function () {
-                this.$refs['article'].resetFields();
-                this.articleDialogVisible = false;
-            }
-        }
-    });
+						_this.$refs['article'].resetFields();
+						_this.$message({
+							message: '添加成功',
+							showClose: false,
+							type: 'success'
+						});
+					}
+				});
+			},
+			cancelArticle: function () {
+				this.$refs['article'].resetFields();
+				this.articleDialogVisible = false;
+			}
+		}
+	});
 
 </script>
 </body>

@@ -11,7 +11,7 @@ var (
 	FileInfo  *log.Logger
 	Warning   *log.Logger
 	Error     *log.Logger
-	ErrorFile *log.Logger
+	FileError *log.Logger
 )
 
 func init() {
@@ -25,7 +25,7 @@ func init() {
 	FileInfo = log.New(io.MultiWriter(os.Stderr, logFile), "Info:", log.LstdFlags|log.Lshortfile)
 	Warning = log.New(os.Stdout, "Warning:", log.LstdFlags|log.Lshortfile)
 	Error = log.New(os.Stdout, "Error:", log.LstdFlags|log.Lshortfile)
-	ErrorFile = log.New(io.MultiWriter(os.Stderr, logFile), "Error:", log.LstdFlags|log.Lshortfile)
+	FileError = log.New(io.MultiWriter(os.Stderr, logFile), "Error:", log.LstdFlags|log.Lshortfile)
 }
 
 //logFilePath 日志文件路径

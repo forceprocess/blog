@@ -3,6 +3,7 @@ package router
 import (
 	"net/http"
 	. "utils"
+	"api"
 )
 
 func init() {
@@ -14,6 +15,9 @@ func init() {
 
 	//首页
 	http.Handle("/", http.FileServer(http.Dir(CtxPath+"view")))
+
+	// QQ号测试
+	http.HandleFunc("/doQQNoTest", api.DoQQNo)
 
 	FileInfo.Println("路由初始化完成")
 }
