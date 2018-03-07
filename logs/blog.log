@@ -44,3 +44,37 @@ Info:2018/02/07 11:45:17 router.go:22: 路由初始化完成
 Info:2018/02/07 11:46:23 router.go:11: 路由开始初始化
 Info:2018/02/07 11:46:23 router.go:22: 路由初始化完成
 Info:2018/02/07 11:46:31 qq.go:53: {"qq":"136771988","error_code":0,"reason":"success","result":{"data":{"conclusion":"[大吉]思虑周详，计划力行，不失先机，可望成功","analysis":"兴家立业意志强，智虑周密名望扬，志操坚固信用重，一身才艺建基业。"}}}
+Info:2018/03/07 14:16:05 router.go:11: 路由开始初始化
+Info:2018/03/07 14:16:05 router.go:22: 路由初始化完成
+Info:2018/03/07 14:16:20 router.go:11: 路由开始初始化
+Info:2018/03/07 14:16:20 router.go:22: 路由初始化完成
+Info:2018/03/07 14:16:44 router.go:11: 路由开始初始化
+Info:2018/03/07 14:16:44 router.go:22: 路由初始化完成
+Info:2018/03/07 15:27:26 router.go:11: 路由开始初始化
+Info:2018/03/07 15:27:26 router.go:25: 路由初始化完成
+Info:2018/03/07 15:28:00 article.go:57: 新增id=0    ip=[ 
+Info:2018/03/07 15:30:33 router.go:11: 路由开始初始化
+Info:2018/03/07 15:30:33 router.go:25: 路由初始化完成
+Info:2018/03/07 15:30:49 article.go:58: 新增id=1    ip=[ 
+Info:2018/03/07 15:31:28 article.go:58: 新增id=2    ip=127.0.0.1 
+Info:2018/03/07 15:32:18 article.go:58: 新增id=3    ip=192.168.10.181 
+Info:2018/03/07 15:33:21 article.go:58: 新增id=4    ip=192.168.10.181 
+Info:2018/03/07 16:12:40 router.go:11: 路由开始初始化
+Info:2018/03/07 16:12:40 router.go:28: 路由初始化完成
+Error:2018/03/07 16:13:18 article.go:91: Error 1054: Unknown column 'createTime' in 'field list'
+Info:2018/03/07 16:14:35 router.go:11: 路由开始初始化
+Info:2018/03/07 16:14:35 router.go:28: 路由初始化完成
+Info:2018/03/07 16:16:00 router.go:11: 路由开始初始化
+Info:2018/03/07 16:16:00 router.go:28: 路由初始化完成
+Info:2018/03/07 16:20:02 router.go:11: 路由开始初始化
+Info:2018/03/07 16:20:02 router.go:28: 路由初始化完成
+Info:2018/03/07 16:20:56 router.go:11: 路由开始初始化
+Info:2018/03/07 16:20:56 router.go:28: 路由初始化完成
+Info:2018/03/07 16:22:30 router.go:11: 路由开始初始化
+Info:2018/03/07 16:22:30 router.go:28: 路由初始化完成
+Error:2018/03/07 16:46:44 article.go:52: Error 1406: Data too long for column 'content' at row 1
+Info:2018/03/07 16:47:24 article.go:58: 新增id=5    ip=192.168.10.181 
+Info:2018/03/07 16:49:40 router.go:11: 路由开始初始化
+Info:2018/03/07 16:49:40 router.go:28: 路由初始化完成
+Info:2018/03/07 16:53:21 router.go:11: 路由开始初始化
+Info:2018/03/07 16:53:21 router.go:28: 路由初始化完成

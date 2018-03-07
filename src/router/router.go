@@ -19,5 +19,11 @@ func init() {
 	// QQ号测试
 	http.HandleFunc("/doQQNoTest", api.DoQQNo)
 
+	//添加
+	http.HandleFunc("/doAddArticle", DoAddArticle)
+
+	//查询
+	http.HandleFunc("/doArticlePageList", DoArticlePageList)
+
 	FileInfo.Println("路由初始化完成")
 }

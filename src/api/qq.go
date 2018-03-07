@@ -5,7 +5,6 @@ import (
 	. "utils"
 	"io/ioutil"
 	"encoding/json"
-	"fmt"
 )
 
 type Content struct {

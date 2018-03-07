@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/css/element-ui.css">
-    <link rel="stylesheet" href="/static/css/animate.css">
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="/static/css/animate.css">-->
+    <!--<link rel="stylesheet" href="/static/css/font-awesome.min.css">-->
     <title>home</title>
 
     <style>
@@ -16,6 +16,7 @@
         }
 
         .api-container {
+            display: none;
             position: absolute;
             z-index: 100;
             min-width: 300px;
@@ -33,6 +34,7 @@
         }
 
         .operation-container {
+            width: 50px;
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -217,7 +219,9 @@
         <el-tooltip class="item" effect="dark" content="返回顶部" placement="left">
             <i class="el-icon-arrow-up to-top" v-show="top" @click="toTop"></i>
         </el-tooltip>
-        <br>
+        <el-tooltip class="item" effect="dark" content="加载更多" placement="left">
+            <i class="el-icon-more" v-show="page.more" @click="articlePageList"></i>
+        </el-tooltip>
         <el-tooltip class="item" effect="dark" content="增加文章" placement="left">
             <i class="el-icon-edit" @click="articleDialogVisible=true"></i>
         </el-tooltip>
@@ -242,7 +246,7 @@
                 <el-input type="text" v-model="article.author" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="内容" prop="content">
-                <el-input type="textarea" v-model="article.content" auto-complete="off"></el-input>
+                <el-input type="textarea" rows="6" v-model="article.content" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -257,7 +261,7 @@
 <script src="/static/js/element-ui.js"></script>
 <script src="/static/js/axios.js"></script>
 <script src="/static/js/qs.js"></script>
-<script src="/static/js/wow.min.js"></script>
+<!--<script src="/static/js/wow.min.js"></script>-->
 <script>
 
 	Vue.prototype.$qs = Qs;
@@ -299,28 +303,34 @@
 				]
 			},
 			articleList: [
-				{"title": "标题", "author": "张三1", "createTime": "2017-05-12 12:23:50", "content": "内容"},
+//				{"title": "标题", "author": "张三1", "createTime": "2017-05-12 12:23:50", "content": "内容"},
 //	            {"title":"标题", "author": "张三2", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三3", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三4", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三5", "createTime":"2017-05-12 12:23:50", "content":"内容"},
 //	            {"title":"标题", "author": "张三6", "createTime":"2017-05-12 12:23:50", "content":"内容"},
-				{"title": "标题", "author": "张三7", "createTime": "2017-05-12 12:23:50", "content": "内容"}
+//				{"title": "标题", "author": "张三7", "createTime": "2017-05-12 12:23:50", "content": "内容"}
 			],
 			qqNoTest: {
 				qqNo: 136771988,
 				conclusion: '',
 				analysis: ''
+			},
+			page: {
+				num: 1,
+				size: 2,
+				more: true
 			}
 		},
 		mounted: function () {
 			this.$nextTick(function () {
 //				this
 				if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
-					new WOW().init();
+//					new WOW().init();
 				}
 
 				document.onscroll = this.doScrollTop;
+				this.articlePageList();
 			});
 		},
 		methods: {
@@ -347,6 +357,22 @@
 					}
 				});
 			},
+			articlePageList: function () {
+				var _this = this;
+				_this.$axios.post("/doArticlePageList", _this.$qs.stringify(_this.page)).then(function (res) {
+					var result = res.data;
+					if (result.success) {
+						if (result.data && result.data.length > 0) {
+							_this.articleList = result.data.concat(_this.articleList);
+						}
+						_this.page.more = !(result.data.length < _this.page.size);
+						_this.page.num++;
+						_this.$message.success("加载完成");
+					}
+				}).catch(function (err) {
+					_this.$message.error("服务器忙");
+				});
+			},
 			addArticle: function () {
 				var _this = this;
 				this.$refs['article'].validate(function (valid) {
@@ -354,16 +380,20 @@
 						//提交数据
 						_this.$axios.post("/doAddArticle", _this.$qs.stringify(_this.article)).then(function (res) {
 							var result = res.data;
+							if (result.success) {
+								_this.$refs['article'].resetFields();
+								_this.$message({
+									message: '添加成功',
+									showClose: false,
+									type: 'success'
+								});
+								window.location.reload();
+							} else {
+								_this.$message.error("添加失败");
+							}
 							console.log(result);
 						}).catch(function (err) {
 							_this.$message.error("添加失败");
-						});
-
-						_this.$refs['article'].resetFields();
-						_this.$message({
-							message: '添加成功',
-							showClose: false,
-							type: 'success'
 						});
 					}
 				});
