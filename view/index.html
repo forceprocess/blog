@@ -318,7 +318,7 @@
 			},
 			page: {
 				num: 1,
-				size: 2,
+				size: 20,
 				more: true
 			}
 		},
@@ -363,7 +363,7 @@
 					var result = res.data;
 					if (result.success) {
 						if (result.data && result.data.length > 0) {
-							_this.articleList = result.data.concat(_this.articleList);
+							_this.articleList = _this.articleList.concat(result.data);
 						}
 						_this.page.more = !(result.data.length < _this.page.size);
 						_this.page.num++;
