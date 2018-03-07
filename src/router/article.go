@@ -4,8 +4,9 @@ import (
 	"net/http"
 	. "utils"
 	"encoding/json"
-	"strings"
 	"strconv"
+	"net"
+	"fmt"
 )
 
 type Article struct {
@@ -36,8 +37,12 @@ func DoAddArticle(w http.ResponseWriter, r *http.Request) {
 	title := r.PostFormValue("title")
 	author := r.PostFormValue("author")
 	content := r.PostFormValue("content")
-	Info.Println(r.RemoteAddr)
-	ip := strings.Split(r.RemoteAddr, ":")[0]
+	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+
+	forward := r.Header.Get("X-Forwarded-For")
+	if forward != "" {
+		ip = forward
+	}
 
 	sql := "insert into blog(title,author,content,ip,create_time) values(?,?,?,?,NOW())"
 	stmt, err := DB.Prepare(sql)
